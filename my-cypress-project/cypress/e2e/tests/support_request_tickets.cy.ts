@@ -98,5 +98,21 @@ describe('Support Request Form Tests', () => {
 
       cy.contains("Delete").click();
     });
+
+    it('Should display an error for invalid Email', () => {
+      cy.contains("Create Ticket").click();  
+      cy.get("[formcontrolname='title']").type('Test Issue');
+      cy.get("[formcontrolname='applicationArea']").click();
+      cy.contains("Dashboard").click();
+      cy.get("[formcontrolname='description']").type('This is a test issue description.');
+      cy.get("[formcontrolname='dateTime']").type('8/3/2024');
+      cy.get("[formcontrolname='videoUrl']").type('https://www.youtube.com/watch?v=example');
+      cy.get("[formcontrolname='contactEmail']").type('invalid email')
+      cy.contains("Submit").click();
+  
+      // Check for URL validation error
+      cy.contains("Error occurred, check the network tab on your browser's developer tools for more details").should('be.visible');
+    });
+
   });
   
